@@ -26,10 +26,57 @@ public:
 		void preorder(struct Node *);
 		void postOrder(struct Node *);
 		int big(int,int);
-
 };
 struct Node * AvlTree :: remove(struct Node *t,int val){
-    
+    struct Node *temp;
+    if( t == NULL){
+        return NULL;
+    }
+    else if(t->data > val){
+        t->left  = remove(t->left,val); 
+        if(height(t->right) - height(t->left) >=2 ){
+            if(t->right->right != NULL){
+                t = RR(t);
+            } 
+            else{
+                t = RL(t);
+            }
+        }
+    }
+    else if(t->data < val){
+        t->right = remove(t->right,val);
+        if (height(t->left) - height(t->right) >= 2)
+        {
+            if (t->left->left != NULL)
+            {
+                t = LL(t);
+            }
+            else
+            {
+                t = LR(t);
+            }
+        }
+    }
+    else{
+        if(t->left!=NULL && t->right!=NULL){
+            temp = findMax(t->left);
+            t->data = temp->data;
+            t->left = remove(t->left,temp->data);
+            temp = NULL;
+        }
+        else{
+            temp = t;
+            if(t->left == NULL){
+                t = t->right;
+            }
+            else if(t->right == NULL){
+                t = t->left;
+            }
+            delete temp;
+            temp = NULL;
+        }
+    }
+    return t;
 }
 struct Node * AvlTree :: findMin(struct Node *root){
     if(root == NULL){
@@ -180,20 +227,13 @@ int main(){
 
     AvlTree obj;
     int n;
-    for(int i=0;i<5;i++){
-        cout<<"Enter a value";
-        cin>>n;
-        root = obj.insert(root,n);
-        obj.printTree(root,1);
+    for(int i=0;i<8;i++){
+        root = obj.insert(root,i);
+        
     }
-    cout << "In order"<<endl;
-    obj.inorder(root);
     cout<<"The AVL Tree is"<<endl;
     obj.printTree(root,1);
-    struct Node *t = obj.search(root,1);
-    cout<<t;
-    if(t!=NULL)
-        cout<<"Found";
-    else
-        cout<<"Not Found";
+    root = obj.remove(root,3);
+    cout<<"-----------------"<<endl;
+    obj.printTree(root, 1);
 }
