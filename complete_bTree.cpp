@@ -14,7 +14,6 @@ class CBT{
         void printTree(struct Node *,int );
         void inorder(struct Node *);
 };
-
 struct Node * CBT :: insertWithQ(struct Node *t,int val){
     struct Node *temp;
     struct Node * q[MAX];
@@ -73,7 +72,7 @@ void CBT :: printTree(struct Node *root,int level){
 int main(){
     CBT a ;
     struct Node *root = NULL;
-    for(int i =0;i<5;i++){
+    for(int i =1;i<10;i++){
         root = a.insertWithQ(root,i);
     }
     a.printTree(root,1);
