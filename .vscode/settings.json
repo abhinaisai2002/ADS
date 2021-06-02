@@ -1,3 +1,6 @@
 {
-    "workbench.colorTheme": "Monokai Dimmed"
+    "workbench.colorTheme": "Monokai Dimmed",
+    "files.associations": {
+        "iostream": "cpp"
+    }
 }

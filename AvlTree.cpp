@@ -33,7 +33,8 @@ struct Node * AvlTree :: remove(struct Node *t,int val){
         return NULL;
     }
     else if(t->data > val){
-        t->left  = remove(t->left,val); 
+        t->left  = remove(t->left,val);
+        cout << height(t->left);
         if(height(t->right) - height(t->left) >=2 ){
             if(t->right->right != NULL){
                 t = RR(t);
@@ -45,6 +46,7 @@ struct Node * AvlTree :: remove(struct Node *t,int val){
     }
     else if(t->data < val){
         t->right = remove(t->right,val);
+        cout << height(t->left) ;
         if (height(t->left) - height(t->right) >= 2)
         {
             if (t->left->left != NULL)
@@ -203,7 +205,7 @@ void AvlTree :: printTree(struct Node *root,int level){
     if(root!=NULL){
         printTree(root->right,level + 1);
         for(int i=0;i<level;i++)
-            cout<<" ";
+            cout<<"  ";
         cout<<root->data<<endl;
         printTree(root->left,level+1);
     }
@@ -222,18 +224,37 @@ struct Node * AvlTree :: search(struct Node *root,int val){
     }
     return NULL;
 }
+
+void inorderNonrecursion(struct Node *t)
+{
+   if(t== NULL){
+       return;
+   }
+   else{
+       struct Node * stk[20];
+       int top = -1;
+       struct Node *curr = t;
+       while(curr!=NULL || top != -1){
+            while(curr!=NULL){
+               stk[++top] = curr;
+               curr = curr->left;
+            }
+            curr = stk[top--];
+            cout<<curr->data<< " ";
+            curr = curr->right;
+       }
+   }
+}
 int main(){
     struct Node *root = NULL;
 
     AvlTree obj;
     int n;
-    for(int i=0;i<8;i++){
+    for(int i=9;i>0;i--){
         root = obj.insert(root,i);
         
     }
     cout<<"The AVL Tree is"<<endl;
     obj.printTree(root,1);
-    root = obj.remove(root,3);
-    cout<<"-----------------"<<endl;
-    obj.printTree(root, 1);
+    inorderNonrecursion(root);
 }
